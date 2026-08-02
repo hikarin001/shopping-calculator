@@ -14,17 +14,26 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Flet CLI
-        run: |
-          pip install flet
-
-      - name: Set up JDK
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build APK with Flet
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install Flet
+        run: |
+          pip install flet
+
+      - name: Create Flet App Configuration
+        run: |
+          flet pack main.py --name "ShoppingCalc"
+
+      - name: Build APK
         run: |
           flet build apk --no-interactive
 
